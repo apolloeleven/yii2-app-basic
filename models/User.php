@@ -2,38 +2,107 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use app\models\query\UserQuery;
+use Yii;
+use yii\base\Exception;
+use yii\behaviors\AttributeBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+
+/**
+ * User model
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $middle_name
+ * @property string $password_hash
+ * @property string $email
+ * @property string $access_token
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ */
+
+class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%user}}';
+    }
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            BlameableBehavior::className(),
+            'access_token' => [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'access_token'
+                ],
+                'value' => function () {
+                    return Yii::$app->getSecurity()->generateRandomString(40);
+                }
+            ]
+        ];
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['username'], 'required'],
+            [['username'], 'string', 'min' => 2, 'max' => 24],
+            [['username'], 'unique'],
+            [['username'], 'filter', 'filter' => '\yii\helpers\Html::encode']
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('frontend', 'Username'),
+            'first_name' => Yii::t('frontend', 'First Name'),
+            'last_name' => Yii::t('frontend', 'Last Name'),
+            'middle_name' => Yii::t('frontend', 'Middle Name'),
+            'email' => Yii::t('frontend', 'E-mail'),
+            'access_token' => Yii::t('frontend', 'API access token'),
+            'created_at' => Yii::t('frontend', 'Created at'),
+            'updated_at' => Yii::t('frontend', 'Updated at'),
+            'logged_at' => Yii::t('frontend', 'Last login'),
+        ];
+    }
+
+    /**
+     * @return UserQuery
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
+    }
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::find()
+            ->andWhere(['id' => $id])
+            ->one();
     }
 
     /**
@@ -41,30 +110,16 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::find()->andWhere(['access_token' => $token])->one();
     }
 
     /**
      * Finds user by username
      *
-     * @param string $username
-     * @return static|null
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::find()->andWhere(['username' => $username])->one();
     }
 
     /**
@@ -75,21 +130,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
 
     /**
      * Validates password
@@ -99,6 +139,29 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->getSecurity()->validatePassword($password, $this->password_hash);
+    }
+
+    /**
+     * @param $password String
+     * @author Saiat Kalbiev <kalbievich11@gmail.com>
+     */
+    public function setPassword($password)
+    {
+        try {
+            $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+        } catch (Exception $e) {
+
+        }
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        // TODO: Implement validateAuthKey() method.
+    }
+
+    public function getAuthKey()
+    {
+        // TODO: Implement getAuthKey() method.
     }
 }
