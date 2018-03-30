@@ -17,7 +17,6 @@ class m180330_122254_create_table_user extends Migration
             'id' => $this->primaryKey(),
             'username' => $this->string(32),
             'password_hash' => $this->string(255),
-            'auth_key' => $this->string(32),
             'access_token' => $this->string(40),
             'email' => $this->string(255),
             'first_name' => $this->string(255),
