@@ -43,7 +43,6 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             TimestampBehavior::className(),
-            BlameableBehavior::className(),
             'access_token' => [
                 'class' => AttributeBehavior::className(),
                 'attributes' => [
@@ -75,15 +74,15 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('frontend', 'Username'),
-            'first_name' => Yii::t('frontend', 'First Name'),
-            'last_name' => Yii::t('frontend', 'Last Name'),
-            'middle_name' => Yii::t('frontend', 'Middle Name'),
-            'email' => Yii::t('frontend', 'E-mail'),
-            'access_token' => Yii::t('frontend', 'API access token'),
-            'created_at' => Yii::t('frontend', 'Created at'),
-            'updated_at' => Yii::t('frontend', 'Updated at'),
-            'logged_at' => Yii::t('frontend', 'Last login'),
+            'username' => 'Username',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'middle_name' => 'Middle Name',
+            'email' => 'E-mail',
+            'access_token' => 'API access token',
+            'created_at' => 'Created at',
+            'updated_at' => 'Updated at',
+            'logged_at' => 'Last login',
         ];
     }
 
