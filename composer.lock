@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "52855069c233b2f8a6f9a727d9c27d6d",
+    "content-hash": "304941779faf4b832a90a397fa0faf5d",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -584,6 +584,43 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "apollo11/env-analizer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apolloeleven/env-analizer.git",
+                "reference": "8caec09552d88391fa8eaa041104ebba263fb2b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apolloeleven/env-analizer/zipball/8caec09552d88391fa8eaa041104ebba263fb2b1",
+                "reference": "8caec09552d88391fa8eaa041104ebba263fb2b1",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "apollo11\\envAnalizer\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Saiat Kalbiev",
+                    "email": "kalbievich11@gmail.com"
+                }
+            ],
+            "description": "Analyzes environment files",
+            "homepage": "https://github.com/apolloeleven/env-analizer",
+            "keywords": [
+                "env",
+                "env-analizer",
+                "env-checker",
+                "environment"
+            ],
+            "time": "2018-04-02T09:16:15+00:00"
+        },
         {
             "name": "behat/gherkin",
             "version": "v4.5.1",
@@ -3174,7 +3211,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "vlucas/phpdotenv": 20
+        "vlucas/phpdotenv": 20,
+        "apollo11/env-analizer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
