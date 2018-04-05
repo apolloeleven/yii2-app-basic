@@ -38,7 +38,8 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "yii\\composer\\Installer::postInstall"
+            "yii\\composer\\Installer::postInstall",
+            "\\apollo11\\envAnalizer\\Analizer::analizeEnv"
         ],
         "post-create-project-cmd": [
             "yii\\composer\\Installer::postCreateProject",
@@ -46,6 +47,10 @@
         ]
     },
     "extra": {
+        "apollo11-parameters": {
+            "env-path": "/home/sai/www/omcrn/yii2-app-basic/.env",
+            "env-dist-path": "/home/sai/www/omcrn/yii2-app-basic/.env.dist"
+        },
         "yii\\composer\\Installer::postCreateProject": {
             "setPermission": [
                 {
