@@ -18,7 +18,8 @@
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "vlucas/phpdotenv": "^2.5@dev"
+        "vlucas/phpdotenv": "^2.5@dev",
+        "apollo11/env-analyzer": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -27,8 +28,7 @@
 
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",
-        "codeception/specify": "~0.4.3",
-        "apollo11/env-analizer": "dev-master"
+        "codeception/specify": "~0.4.3"
     },
     "config": {
         "process-timeout": 1800,
@@ -39,7 +39,7 @@
     "scripts": {
         "post-install-cmd": [
             "yii\\composer\\Installer::postInstall",
-            "\\apollo11\\envAnalizer\\Analizer::analizeEnv"
+            "\\apollo11\\envAnalyzer\\Analyzer::analyzeEnv"
         ],
         "post-create-project-cmd": [
             "yii\\composer\\Installer::postCreateProject",
@@ -49,7 +49,9 @@
     "extra": {
         "apollo11-parameters": {
             "env-path": "/home/sai/www/omcrn/yii2-app-basic/.env",
-            "env-dist-path": "/home/sai/www/omcrn/yii2-app-basic/.env.dist"
+            "env-dist-path": "/home/sai/www/omcrn/yii2-app-basic/.env.dist",
+            "php-env-path": "/home/sai/www/omcrn/yii2-app-basic/jondo.php",
+            "php-env-dist-path": "/home/sai/www/omcrn/yii2-app-basic/jondo.dist.php"
         },
         "yii\\composer\\Installer::postCreateProject": {
             "setPermission": [
