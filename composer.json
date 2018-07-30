@@ -48,10 +48,10 @@
     },
     "extra": {
         "apollo11-parameters": {
-            "env-path": "/home/sai/www/omcrn/yii2-app-basic/.env",
-            "env-dist-path": "/home/sai/www/omcrn/yii2-app-basic/.env.dist",
-            "php-env-path": "/home/sai/www/omcrn/yii2-app-basic/jondo.php",
-            "php-env-dist-path": "/home/sai/www/omcrn/yii2-app-basic/jondo.dist.php"
+            "env-path": "/path/to/.env",
+            "env-dist-path": "/path/to/.env.dist",
+            "php-env-path": "/path/to/env.php",
+            "php-env-dist-path": "/path/to/env.dist.php"
         },
         "yii\\composer\\Installer::postCreateProject": {
             "setPermission": [
